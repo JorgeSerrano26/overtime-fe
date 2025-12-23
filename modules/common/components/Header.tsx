@@ -21,12 +21,7 @@ const tournamentsToNavItems = (tournaments: Tournament[]): NavItem[] => {
         subMenu: tournament.categories.filter((category) => !category.hidden).map((category) => ({
             id: category.id,
             name: category.name,
-            href: `/torneos/${tournament.slug}/${category.slug}`,
-            subMenu: category.zones.filter((zone) => !zone.hidden).map((zone) => ({
-                id: zone.id,
-                name: zone.name,
-                href: `/torneos/${tournament.slug}/${category.slug}/${zone.slug}`,
-            }))
+            href: `/torneos/${tournament.slug}/${category.slug}`
         }))
     }))
 }

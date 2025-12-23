@@ -1,6 +1,6 @@
 import { client } from "../common/client/baseClient"
 import { Service } from "../common/services/Service"
-import { Tournament } from "../common/types"
+import { Category, Tournament } from "../common/types"
 
 
 class TournamentService extends Service {
@@ -8,6 +8,15 @@ class TournamentService extends Service {
         const { data } = await this.client.get<Tournament[]>("/tournaments")
         return data
     }
+    async getTournamentBySlug(slug: string) {
+        const { data } = await this.client.get<Tournament>(`/tournaments/${slug}`)
+        return data
+    }
+    async getCategoryBySlug(tournamentSlug: string, categorySlug: string) {
+        const { data } = await this.client.get<Category>(`/tournaments/${tournamentSlug}/categories/${categorySlug}`)
+        return data
+    }
 }
 
-export default new TournamentService(client)
+const tournamentService = new TournamentService(client)
+export default tournamentService
