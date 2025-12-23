@@ -2,6 +2,7 @@ import TournamentService from "@/modules/tournament/TournamentService";
 import Link from "next/link";
 import { NavItem, Tournament } from "../types";
 import { RecursiveNavItem } from "./RecursiveNavItem";
+import Image from "next/image";
 
 const navItem: NavItem[] = [
     { id: "inicio", name: "inicio", href: "/" },
@@ -40,16 +41,34 @@ const getTorneos = async (): Promise<NavItem[]> => {
     }
 }
 
+const socialLinks = [
+    {
+        href: "https://tiktok.com",
+        src: "/social/tiktok.png",
+        alt: "tiktok"
+    },
+    {
+        href: "https://www.youtube.com/@mediaovertime",
+        src: "/social/youtube.png",
+        alt: "youtube"
+    },
+    {
+        href: "https://www.instagram.com/overtime.basquet/?hl=es",
+        src: "/social/instagram.png",
+        alt: "instagram"
+    }
+]
+
 export const Header = async () => {
     const torneos = await getTorneos()
 
     navItem.find((item) => item.id === "torneos")!.subMenu = torneos
 
     return (
-        <header className="bg-black text-white p-4">
-            <div className="flex justify-between items-center">
+        <header className="text-white p-4">
+            <nav className="flex max-w-8xl w-full justify-evenly m-auto items-center h-full ">
                 <div>
-                    <img src="/overtime_logo.png" alt="Overtime Logo" className="h-10" />
+                    <Image src="/overtime_logo.png" alt="Overtime Logo" width={58} height={31} />
                 </div>
                 <nav>
                     <ul className="flex space-x-4">
@@ -59,9 +78,20 @@ export const Header = async () => {
                     </ul>
                 </nav>
                 <div>
-                    <button>Sign In</button>
+                    <div className="flex items-center justify-evenly gap-3">
+                        {socialLinks.map((link) => (
+                            <Link href={link.href} target="_blank" key={link.alt}>
+                                <Image
+                                    src={link.src}
+                                    alt={link.alt}
+                                    width={27}
+                                    height={27}
+                                />
+                            </Link>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </nav>
         </header>
     )
 }
