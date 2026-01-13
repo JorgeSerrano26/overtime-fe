@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cn } from "@/utils/cn";
+import { AuthProvider } from "@/providers/AuthProvider";
+import { getProfile } from "@/lib/auth/session";
 import "./globals.css";
+import { getUser } from "@/lib/supabase/getSessionSsr";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,15 +21,25 @@ export const metadata: Metadata = {
   description: "Mejor organizador de torneos privados de básquet en Argentina",
 };
 
-export default function RootLayout({
+/**
+ * Root Layout - Server Component
+ * Obtiene la sesión y profile server-side y los pasa al AuthProvider
+ */
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Obtener usuario y profile server-side
+  const user = await getUser();
+  const profile = user ? await getProfile() : null;
+
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={cn(geistSans.variable, geistMono.variable, "antialiased")}>
-        {children}
+        <AuthProvider serverUser={user} serverProfile={profile}>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

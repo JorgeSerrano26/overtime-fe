@@ -3,6 +3,7 @@ import Link from "next/link";
 import { NavItem, Tournament } from "../types";
 import { RecursiveNavItem } from "./RecursiveNavItem";
 import Image from "next/image";
+import { UserMenu } from "@/components/UserMenu";
 
 const navItem: NavItem[] = [
     { id: "inicio", name: "inicio", href: "/" },
@@ -72,6 +73,7 @@ export const Header = async () => {
                         ))}
                     </ul>
                 </nav>
+                <UserMenu />
                 <div>
                     <div className="flex items-center justify-evenly gap-3">
                         {socialLinks.map((link) => (
