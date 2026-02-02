@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -43,20 +43,23 @@ export function AuthProvider({
   serverUser,
   serverProfile,
 }: AuthProviderProps) {
-  // Use server data directly (no local state needed since we refresh from server)
   const user = serverUser;
   const profile = serverProfile;
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
+  const isInitialAuthEvent = useRef(true);
 
-  // Listen for auth changes (login/logout)
   useEffect(() => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event) => {
+      
+      if (isInitialAuthEvent.current) {
+        isInitialAuthEvent.current = false;
+        return;
+      }
       if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-        // Refresh the page to get new server-side data
         router.refresh();
       }
     });

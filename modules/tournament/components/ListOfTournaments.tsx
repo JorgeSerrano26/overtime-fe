@@ -3,20 +3,31 @@ import TournamentService from "../TournamentService"
 
 const getTorneos = async ()=> {
     try {
-        const tournaments = await TournamentService.getTournaments()
-        await new Promise(resolve => setTimeout(resolve, 5000))
-        return tournaments.filter((tournament) => !tournament.hidden)
+        const data = await TournamentService.getTournaments()
+        
+        return data
     } catch (error) {
         console.error(error)
-        return []
+        return {
+            data: [],
+            meta: {
+                total: 0,
+                page: 1,
+                limit: 10,
+                totalPages: 0
+            }
+        }
     }
 }
 
 export async function ListOfTournaments() {
-    const tournaments = await getTorneos()
+    const {data: tournaments }	 = await getTorneos()
+    const filteredTournaments = tournaments.filter((tournament) => !tournament.hidden)
+
+    
     return (
         <ul>
-            {tournaments.map((tournament) => (
+            {filteredTournaments.map((tournament) => (
                 <li key={tournament.id}>
                     <Link href={`/torneos/${tournament.slug}`} className="text-ot-orange">{tournament.name}</Link>
                 </li>

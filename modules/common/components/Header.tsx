@@ -29,7 +29,7 @@ const tournamentsToNavItems = (tournaments: Tournament[]): NavItem[] => {
 
 const getTorneos = async (): Promise<NavItem[]> => {
     try {
-        const tournaments = await TournamentService.getTournaments()
+        const { data: tournaments } = await TournamentService.getTournaments()
         return tournamentsToNavItems(tournaments)
     } catch (error) {
         console.error(error)
