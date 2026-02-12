@@ -1,12 +1,29 @@
 import Image from "next/image"
 import Link from "next/link"
 
+const socialLinks = [
+    {
+        href: "https://tiktok.com",
+        src: "/social/tiktok.png",
+        alt: "tiktok"
+    },
+    {
+        href: "https://www.youtube.com/@mediaovertime",
+        src: "/social/youtube.png",
+        alt: "youtube"
+    },
+    {
+        href: "https://www.instagram.com/overtime.basquet/?hl=es",
+        src: "/social/instagram.png",
+        alt: "instagram"
+    }
+]
+
 export const Footer = () => {
     return (
-        <footer className="bg-newbox h-28 bg-ot-dark-blue text-white">
-            <div className="h-full mx-auto flex max-w-3xl">
+        <footer className="bg-newbox py-8 bg-ot-dark-blue text-white">
+            <div className="ot-container  flex items-center justify-between">
                 <Link
-                    className="flex justify-evenly items-center h-full w-1/3 mb-0.5"
                     href="#"
                     target="_blank"
                 >
@@ -26,10 +43,19 @@ export const Footer = () => {
                         </p>
                     </div>
                 </div>
-                <div className="flex justify-center items-center h-full w-1/3 cursor-default ">
-                    <p className="font-din-display text-blanco text-center text-xs sm:text-sm md:text-md sm:text-start">
-                        Todos los derechos reservados
-                    </p>
+                <div>
+                    <div className="flex items-center justify-evenly gap-3">
+                        {socialLinks.map((link) => (
+                            <Link href={link.href} target="_blank" key={link.alt}>
+                                <Image
+                                    src={link.src}
+                                    alt={link.alt}
+                                    width={27}
+                                    height={27}
+                                />
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
         </footer>

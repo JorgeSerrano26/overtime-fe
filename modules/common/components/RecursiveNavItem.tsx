@@ -23,7 +23,7 @@ export const RecursiveNavItem = ({ item, depth = 0 }: RecursiveNavItemProps) => 
             </Link>
             {item.subMenu && item.subMenu.length > 0 && (
                 <ul
-                    className={cn("absolute hidden text-ot-orange! shadow-lg min-w-[200px] z-50 bg-ot-dark-blue",
+                    className={cn("absolute hidden text-ot-orange! shadow-lg w-64 z-50 bg-ot-dark-blue",
                         depth === 0 ? "top-full left-0" : "top-0 left-full",
                     )}
                 >

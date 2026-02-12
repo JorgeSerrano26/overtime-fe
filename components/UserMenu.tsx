@@ -3,6 +3,8 @@
 import { useAuth } from '@/providers/AuthProvider';
 import { useState } from 'react';
 import Link from 'next/link';
+import { Button } from '@/modules/common/components/Button';
+import Image from 'next/image';
 
 export function UserMenu() {
   const { user, profile, signOut, loading, refresh } = useAuth();
@@ -14,12 +16,11 @@ export function UserMenu() {
 
   if (!user || !profile) {
     return (
-      <Link
+      <Button
         href="/auth/login"
-        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
       >
         Iniciar Sesión
-      </Link>
+      </Button>
     );
   }
 
@@ -27,13 +28,15 @@ export function UserMenu() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-gray-100"
+        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-ot-orange/10 cursor-pointer"
       >
         {profile.avatarUrl ? (
-          <img
+          <Image
             src={profile.avatarUrl}
             alt={profile.name}
             className="h-8 w-8 rounded-full"
+            width={32}
+            height={32}
           />
         ) : (
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
@@ -47,46 +50,20 @@ export function UserMenu() {
         <div className="absolute right-0 mt-2 w-64 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           <div className="px-4 py-3 border-b">
             <p className="text-sm font-medium text-gray-900">{profile.name}</p>
-            <p className="text-xs text-gray-500">{profile.email}</p>
-            {profile.hasPlayerProfile && profile.playerName && (
-              <p className="mt-1 text-xs text-green-600">
-                ⚽ Jugador: {profile.playerName}
-              </p>
-            )}
           </div>
 
           <div className="py-1">
-            {!profile.hasPlayerProfile && (
-              <Link
-                href="/profile/create-player"
-                className="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100"
-              >
-                ⚽ Crear perfil de jugador
-              </Link>
-            )}
-
-            {profile.hasPlayerProfile && (
-              <>
-                <Link
-                  href="/teams"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Mis Equipos
-                </Link>
-                <Link
-                  href="/profile/player"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Mi Perfil de Jugador
-                </Link>
-              </>
-            )}
-
             <Link
               href="/profile"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
-              Configuración
+              Mi perfil
+            </Link>
+            <Link
+              href="/profile/settings"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              Configuración de cuenta
             </Link>
 
             {profile.roles.includes('admin') && (
@@ -105,7 +82,7 @@ export function UserMenu() {
                 signOut();
                 setIsOpen(false);
               }}
-              className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+              className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100 cursor-pointer"
             >
               Cerrar Sesión
             </button>

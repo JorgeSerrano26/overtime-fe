@@ -62,7 +62,7 @@ class TournamentService extends Service {
 
   // Legacy methods for backward compatibility
   async getTournamentBySlug(slug: string) {
-        const { data } = await this.client.get<Tournament>(`/tournaments/${slug}`)
+        const { data } = await this.client.get<Tournament>(`/tournaments/by-slug/${slug}`)
         return data
     }
     async getCategoryBySlug(tournamentSlug: string, categorySlug: string) {

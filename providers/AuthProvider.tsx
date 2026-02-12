@@ -15,6 +15,7 @@ type Profile = {
   hasPlayerProfile: boolean;
   playerId?: string;
   playerName?: string;
+  documentNumber: string;
 };
 
 type AuthContextType = {
