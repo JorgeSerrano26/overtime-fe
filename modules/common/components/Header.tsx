@@ -8,7 +8,6 @@ const navItem: NavItem[] = [
     { id: "inicio", name: "inicio", href: "/" },
     { id: "torneos", name: "torneos", href: "/#" },
     { id: "amistosos", name: "amistosos", href: "/amistosos" },
-    { id: "galeria", name: "galeria", href: "/galeria" },
     { id: "contacto", name: "contacto", href: "/contacto" },
     { id: "inscripciones", name: "inscripciones", href: "/inscripciones" }
 ]
@@ -32,7 +31,11 @@ const getTorneos = async (): Promise<NavItem[]> => {
         return tournamentsToNavItems(tournaments)
     } catch (error) {
         console.error(error)
-        return []
+        return [{
+            id: "error",
+            name: "Hubo un error al cargar los torneos",
+            href: "#"
+        }]
     }
 }
 
@@ -42,9 +45,9 @@ export const Header = async () => {
     navItem.find((item) => item.id === "torneos")!.subMenu = torneos
 
     return (
-        <header className="text-white p-4">
+        <header className="text-white bg-ot-dark-blue">
             <nav className="flex justify-between items-center ot-container">
-                <div>
+                <div className="py-1">
                     <Image src="/overtime_logo.png" alt="Overtime Logo" width={58} height={31} />
                 </div>
                 <nav>
