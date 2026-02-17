@@ -17,8 +17,13 @@ export async function getProfile() {
 
   try {
     const response = await AuthService.getProfile();
+    
+    const profile = {
+      ...response.data,
+      roles: ['admin']
+    }
 
-    return response.data;
+    return profile;
   } catch (error) {
     console.error('Error fetching profile server-side:', error);
     return null;

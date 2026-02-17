@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { cn } from "@/utils/cn";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { QueryProvider } from "@/providers/QueryProvider";
 import { getProfile } from "@/lib/auth/session";
 import "./globals.css";
 import { getUser } from "@/lib/supabase/getSessionSsr";
@@ -37,9 +38,11 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body className={cn(geistSans.variable, geistMono.variable, "antialiased")}>
-        <AuthProvider serverUser={user} serverProfile={profile}>
-          {children}
-        </AuthProvider>
+        <QueryProvider>
+          <AuthProvider serverUser={user} serverProfile={profile}>
+            {children}
+          </AuthProvider>
+        </QueryProvider>
       </body>
     </html>
   );
